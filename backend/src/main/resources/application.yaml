@@ -1,3 +1,14 @@
 spring:
   application:
-    name: taskmanager
+    name: task-manager
+  config:
+    import: optional:file:../.env[.properties]
+  datasource:
+    url: jdbc:mysql://${DB_HOST:localhost}:${DB_PORT:3306}/${MYSQL_DATABASE}
+    username: ${MYSQL_USER}
+    password: ${MYSQL_PASSWORD}
+  jpa:
+    hibernate:
+      ddl-auto: update
+    open-in-view: false
+    show-sql: true
