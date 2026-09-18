@@ -1,5 +1,6 @@
 package com.salamsahane.taskmanager.common;
 
+import com.salamsahane.taskmanager.auth.EmailAlreadyUsedException;
 import com.salamsahane.taskmanager.task.TaskNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;
@@ -35,6 +36,12 @@ public class GlobalExceptionHandler {
     public ProblemDetail handleUnreadableBody(HttpMessageNotReadableException ex) {
         return ProblemDetail.forStatusAndDetail(
                 HttpStatus.BAD_REQUEST,
-                "Malformed request body or invalid field value");
+                "Malformed request body or invalid field value"
+        );
+    }
+
+    @ExceptionHandler(EmailAlreadyUsedException.class)
+    public ProblemDetail handleEmailAlreadyUsed(EmailAlreadyUsedException ex) {
+        return ProblemDetail.forStatusAndDetail(HttpStatus.CONFLICT, ex.getMessage());
     }
 }
