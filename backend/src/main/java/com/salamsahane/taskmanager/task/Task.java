@@ -1,11 +1,12 @@
 package com.salamsahane.taskmanager.task;
 
+import com.salamsahane.taskmanager.user.User;
 import jakarta.persistence.*;
 
 import java.time.Instant;
 
 @Entity
-@Table(name = "tasks")
+@Table(name = "tasks", indexes = @Index(name = "idx_tasks_user_id", columnList = "user_id"))
 public class Task {
 
     @Id
@@ -17,6 +18,10 @@ public class Task {
 
     @Column(length = 2000)
     private String description;
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "user_id", nullable = false)
+    private User owner;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
@@ -30,9 +35,10 @@ public class Task {
 
     protected Task() {}
 
-    public Task(String title, String description) {
+    public Task(String title, String description, User owner) {
         this.title = title;
         this.description = description;
+        this.owner = owner;
         this.status = TaskStatus.OPEN;
     }
 
@@ -66,6 +72,10 @@ public class Task {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public User getOwner() {
+        return owner;
     }
 
     public TaskStatus getStatus() {
