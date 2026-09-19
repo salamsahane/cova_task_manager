@@ -29,6 +29,7 @@ export function TasksPage() {
     const [submitting, setSubmitting] = useState(false);
     const [deletingId, setDeletingId] = useState<number | null>(null);
     const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
+    const [formKey, setFormKey] = useState(0);
 
     // Debounce de la recherche
     useEffect(() => {
@@ -89,6 +90,7 @@ export function TasksPage() {
             } else {
                 await createTask({ title: values.title, description: values.description });
                 toast.success('Tâche ajoutée.');
+                setFormKey((k) => k + 1);
             }
             await reload();
         } catch (error) {
@@ -132,6 +134,7 @@ export function TasksPage() {
 
             <main className="mx-auto max-w-3xl space-y-6 px-4 py-8">
                 <TaskForm
+                    key={editing ? `edit-${editing.id}` : `new-${formKey}`}
                     editing={editing}
                     submitting={submitting}
                     fieldErrors={fieldErrors}

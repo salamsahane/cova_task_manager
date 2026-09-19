@@ -70,9 +70,9 @@ export function TaskList({tasks, loading, deletingId, onEdit, onDelete}: TaskLis
                     </div>
 
                     <div className="mt-3 flex gap-2">
-                        <Button variant="secondary" onClick={() => onEdit(task)}>
+                        {STATUS_LABELS[task.status] != STATUS_LABELS.DONE && (<Button variant="secondary" onClick={() => onEdit(task)}>
                             Modifier
-                        </Button>
+                        </Button>)}
                         <Button
                             variant="danger"
                             onClick={() => onDelete(task)}
