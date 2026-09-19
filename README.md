@@ -1,4 +1,5 @@
 # Task Manager
+![CI](https://github.com/salamsahane/cova_task_manager/actions/workflows/ci.yml/badge.svg)
 
 Application de gestion de tâches avec authentification, développée dans le cadre d'un test technique.
 
