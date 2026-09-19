@@ -60,9 +60,14 @@ Le premier démarrage prend quelques minutes (compilation du backend, build du f
 
 **Générer un secret JWT :**
 
-```bash
-openssl rand -base64 48
-```
+| Système | Commande |
+|---|---|
+| Linux / macOS | `openssl rand -base64 48` |
+| Windows — PowerShell | `[Convert]::ToBase64String((1..48 \| ForEach-Object { Get-Random -Maximum 256 }))` |
+
+Copiez le résultat dans `JWT_SECRET`, sans guillemets. L'application refuse de démarrer si le secret fait moins de 32 caractères.
+
+> `openssl` n'est pas disponible par défaut sous Windows. Utilisez l'une des alternatives ci-dessus, ou installez Git Bash, qui l'inclut.
 
 **Arrêter :**
 
@@ -116,11 +121,11 @@ L'application démarre sur http://localhost:5173.
 |---|---|---|
 | `MYSQL_DATABASE` | Nom de la base | `taskmanager` |
 | `MYSQL_USER` | Utilisateur applicatif | `taskmanager` |
-| `MYSQL_PASSWORD` | Mot de passe applicatif | — |
-| `MYSQL_ROOT_PASSWORD` | Mot de passe root MySQL | — |
+| `MYSQL_PASSWORD` | Mot de passe applicatif | **à définir vous-même** |
+| `MYSQL_ROOT_PASSWORD` | Mot de passe root MySQL | **à définir vous-même** |
 | `DB_HOST` | Hôte de la base (en dev local) | `localhost` |
 | `DB_PORT` | Port MySQL | `3306` |
-| `JWT_SECRET` | Secret de signature, **256 bits minimum** | `openssl rand -base64 48` |
+| `JWT_SECRET` | Secret de signature, **256 bits minimum** | à générer (voir [Démarrage rapide](#démarrage-rapide-docker)) |
 | `JWT_EXPIRATION_MS` | Durée de vie du token | `7200000` (2 h) |
 | `APP_CORS_ALLOWED_ORIGINS` | Origines autorisées, séparées par des virgules | `http://localhost:5173` |
 | `VITE_API_URL` | URL de l'API pour le build frontend | `http://localhost:8080` |
