@@ -1,4 +1,5 @@
 import type { ProblemDetail } from '../types/api';
+import { translateFieldErrors, translateMessage } from '../i18n/errors';
 
 const BASE_URL = import.meta.env.VITE_API_URL ?? 'http://localhost:8080';
 
@@ -50,8 +51,8 @@ export async function apiFetch<T>(path: string, options: RequestInit = {}): Prom
         const problem = body as ProblemDetail | null;
         throw new ApiError(
             response.status,
-            problem?.detail ?? 'Une erreur est survenue.',
-            problem?.errors ?? {},
+            translateMessage(problem?.detail ?? 'Une erreur est survenue.'),
+            translateFieldErrors(problem?.errors ?? {}),
         );
     }
 
