@@ -178,6 +178,7 @@ export function TasksPage() {
                 <TaskList
                     tasks={tasks}
                     loading={loading}
+                    editingId={editing?.id ?? null}
                     deletingId={deletingId}
                     onEdit={(task) => {
                         setEditing(task);

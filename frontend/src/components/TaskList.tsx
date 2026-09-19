@@ -16,12 +16,13 @@ const STATUS_STYLES: Record<TaskStatus, string> = {
 type TaskListProps = {
     tasks: Task[];
     loading: boolean;
+    editingId: number | null;
     deletingId: number | null;
     onEdit: (task: Task) => void;
     onDelete: (task: Task) => void;
 };
 
-export function TaskList({tasks, loading, deletingId, onEdit, onDelete}: TaskListProps) {
+export function TaskList({tasks, loading, editingId, deletingId, onEdit, onDelete}: TaskListProps) {
     if (loading) {
         return <p className="py-10 text-center text-sm text-slate-500">Chargement…</p>;
     }
@@ -40,6 +41,7 @@ export function TaskList({tasks, loading, deletingId, onEdit, onDelete}: TaskLis
     return (
         <ul className="space-y-3">
             {tasks.map((task) => (
+                // const isEditing = editingId === task.id;
                 <li
                     key={task.id}
                     className="rounded-xl border border-slate-200 bg-white p-4"
@@ -70,13 +72,13 @@ export function TaskList({tasks, loading, deletingId, onEdit, onDelete}: TaskLis
                     </div>
 
                     <div className="mt-3 flex gap-2">
-                        {STATUS_LABELS[task.status] != STATUS_LABELS.DONE && (<Button variant="secondary" onClick={() => onEdit(task)}>
+                        {STATUS_LABELS[task.status] != STATUS_LABELS.DONE && (<Button variant="secondary" onClick={() => onEdit(task)} disabled={editingId === task.id}>
                             Modifier
                         </Button>)}
                         <Button
                             variant="danger"
                             onClick={() => onDelete(task)}
-                            disabled={deletingId === task.id}
+                            disabled={editingId === task.id || deletingId === task.id}
                         >
                             {deletingId === task.id ? 'Suppression…' : 'Supprimer'}
                         </Button>
